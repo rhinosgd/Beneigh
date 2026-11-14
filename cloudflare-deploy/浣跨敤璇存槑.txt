@@ -1,0 +1,10 @@
+Beneigh Cloudflare cloud deployment
+
+1. Extract the complete ZIP file to a new folder.
+2. Double-click DEPLOY_BENEIGH_CLOUDFLARE.cmd.
+3. When the Cloudflare authorization page opens, choose your account and approve access.
+4. Keep the black window open while the database and website are uploaded.
+5. After deployment, the public address opens automatically.
+6. The public address and admin accounts are saved in Beneigh-cloud-address-and-accounts.txt.
+
+This package uploads the website to Cloudflare. It does not run the website on this computer and does not use ports 8767 or 8768.
