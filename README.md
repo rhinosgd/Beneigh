@@ -9,6 +9,27 @@ This checkout contains the Beneigh website revision based on `整体修改-26102
 - Six-step China medical accompaniment flow and revised bilingual booking/contact copy.
 - A one-time `content_revision_20261020` migration updates the existing runtime content while preserving bookings, inquiries, messages, media and administrator credentials.
 
+## 管理端后台（Admin / 运营后台）
+
+Beneigh 自带一套完整的管理后台，用于维护预约、询问、站内消息、素材图片与站点内容（CMS）。
+
+### 访问地址
+- 后台主面板：`/manage-portal-7x`
+- 管理员密码重置：`/manage-portal-7x/reset-password`
+- 后台接口：`/api/admin/*`（`login` / `messages` / `media` / `export` / `password` 等，均带管理员鉴权）
+
+### 登录与凭据配置
+后台账号 / 密码来自运行环境，未写死在源码中：
+- `ADMIN_USERNAME`：管理员用户名，缺省 `beneighadmin`
+- `ADMIN_PASSWORD`：管理员密码（与数据库 `admin_credentials` 表二选一，环境变量优先；命中即授予 `owner` 角色）
+- 登录接口 `POST /api/admin/login` 经 `lib/admin-auth.ts` 校验凭据，成功后下发 `tcd_admin` HttpOnly 会话 Cookie（有效期 1800 秒，`SameSite=Strict`，HTTPS 下带 `Secure`）。
+- 角色分 `owner` 与 `staff`：素材上传、密码修改等敏感操作仅 `owner` 可执行。
+
+### 运行前提
+- 源码不含生产数据库（`data/` 已被 `.gitignore` 排除，且不带任何凭据）。
+- 首次运行需初始化管理员账号与业务表（环境变量或服务端 seed/迁移）；线上部署在 `/opt/beneigh/data` 挂载运行库并配置 `ADMIN_USERNAME` / `ADMIN_PASSWORD`。
+- 发布配置见 `deploy/` 目录（`beneigh.service`、`beneigh.nginx.conf`、`deploy.sh`）。
+
 A clean full-stack starter running on [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and Drizzle support.
 
 ## Prerequisites
